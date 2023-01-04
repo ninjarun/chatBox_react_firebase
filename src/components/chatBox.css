@@ -1,0 +1,19 @@
+.chatBox {
+    background-color: bisque;
+    height: 800px;
+    width: 600px;
+    margin: 10px auto;
+    padding: 10px;
+    overflow:scroll;
+    display: flex;
+flex-direction: column-reverse;
+}
+
+.msgContainer {
+    margin: 5px;
+    padding: 9px;
+    font-size: 15px;
+    width: fit-content;
+    background-color: white;
+    border-radius: 15px;
+}
