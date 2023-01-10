@@ -1,8 +1,6 @@
 .chatBox {
     background-color: bisque;
     height: 800px;
-    width: 600px;
-    margin: 10px auto;
     padding: 10px;
     overflow:scroll;
     display: flex;

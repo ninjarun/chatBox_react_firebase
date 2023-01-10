@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import "./input.css"
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase"
@@ -7,12 +7,15 @@ const Input = () => {
   const [Msg, setMsg] = useState("")
   const { CurrentUser } = useContext(CurrentUserContext)
 
+
   const handleSubmit = async () => {
-    console.log('hello', CurrentUser)
     const collectionRef = collection(db, "chatBox");
     const payload = { "User": CurrentUser.displayName, Msg, timestamp: serverTimestamp() };
     const docRef = await addDoc(collectionRef, payload);
     console.log("The new ID is: " + docRef.id);
+    
+    
+    
     setMsg("")
   };
 
