@@ -5,11 +5,10 @@ import { auth, db } from '../firebase'
 import { createUserWithEmailAndPassword, onAuthStateChanged, updateProfile } from 'firebase/auth'
 import Login from './Login'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
-// import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 const SignUp = () => {
     const { Email, Password, setEmail, setPassword } = useContext(UserContext)
-    const { CurrentUser, setCurrentUser ,setInnerToken} = useContext(CurrentUserContext)
+    const {  setCurrentUser ,setInnerToken} = useContext(CurrentUserContext)
     const [display, setdisplay] = useState("")
     useEffect(() => {
         const unsub = onAuthStateChanged(auth, user => { setCurrentUser(user) });
@@ -21,12 +20,10 @@ const SignUp = () => {
         await createUserWithEmailAndPassword(auth, Email, Password)
             .then(cred => {
                 console.log('create success')
-
             })
             .catch(err => {
                 console.log(err.message)
             })
-
         await updateProfile(auth.currentUser, {
             displayName: display
         }).then(() => {
@@ -46,9 +43,6 @@ const SignUp = () => {
         const docRef = await addDoc(collectionRef, payload);
         console.log("The new ID is: " + docRef.id);
         setInnerToken(docRef.id)
-        // setEmail("")
-        // setPassword("")
-        // setdisplay("")
     }
 
     return (

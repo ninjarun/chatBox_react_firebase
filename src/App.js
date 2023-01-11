@@ -24,8 +24,7 @@ function App() {
   
   return (
     <div style={{ margin: 'auto', width: '90%', backgroundColor:"yellow"  }}>
-      {!CurrentUser ? <SignUp></SignUp> :
-        <MainDisplay />}
+      {!CurrentUser ? <SignUp></SignUp> :  <MainDisplay />}
     </div>
   );
 }

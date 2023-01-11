@@ -8,18 +8,13 @@ const StatusBar = () => {
     const LogOut = async () => {
         await signOut(auth)
         setCurrentUser(null)
-        // const cityRef = doc(db, 'usersLogged', InnerToken);
         setDoc(doc(db, 'usersLogged', InnerToken), { logged: false }, { merge: true });
         console.log('done')
-
     }
-
 
     return (
         <div className='statusBar' style={{ justifyContent: "space-between", padding: "10px", backgroundColor: "green", margin: "auto", display: "flex" }}>
-
             welcome back: {CurrentUser.displayName}
-
             <button onClick={LogOut}>Log Out!</button>
         </div>
     )

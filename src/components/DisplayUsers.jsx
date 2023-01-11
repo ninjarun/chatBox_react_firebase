@@ -1,34 +1,44 @@
-import { addDoc, collection, onSnapshot, orderBy, getDocs, query, where, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, onSnapshot, orderBy, getDocs, query, where } from 'firebase/firestore';
 import React, { useContext, useEffect, useState } from 'react'
 import { db } from '../firebase';
 import CurrentUserContext from '../contexts/CurrentUserContext'
-import ChatChooser from './ChatChooser';
 
 const DisplayUsers = () => {
     const [Onlines, setOnlines] = useState([])
-    const { setChatChooserChanger, ChatChooserChanger, CurrentUser } = useContext(CurrentUserContext)
+    const { setChatChooserChanger, CurrentUser } = useContext(CurrentUserContext)
+    const [CreateNewChatFlag, setCreateNewChatFlag] = useState(false)
 
-    // creates table for both users private chat
+
+    // creates table for both users private chat - NEEDS TO BE FIXED
     const handleClick = async (userClicked) => {
         setChatChooserChanger(userClicked)
-
-
-
-        // pppppppppppp
-        const q = query(collection(db, "privateMsgs"), where("participants", "array-contains", CurrentUser.email, userClicked));
+        // query to get all messages that the current user is involved with
+        const q = query(collection(db, "privateMsgs"), where("participants", "array-contains", CurrentUser.email));
         console.log("we are here")
         const querySnapshot = await getDocs(q);
-        console.log(querySnapshot)
-        // pppppppppppp
+        let flag = false
+        // loop to get the exact conversation with other user
+        querySnapshot.forEach((doc) => {
+            console.log(  'test if contains:',          doc.data().participants.includes(userClicked)            );
+            // (doc.data().participants.includes(userClicked)) && setCreateNewChatFlag(true)
+            setCreateNewChatFlag(doc.data().participants.includes(userClicked))
+        })
+      
+      console.log(CreateNewChatFlag)
+    // creates conversation if doesn't exist
+        if (!CreateNewChatFlag) {
+console.log('yes')
+        //     const collectionRef = collection(db, "privateMsgs");
+        //     const payload = { "participants": [CurrentUser.email, userClicked] };
+        //     const docRef = await addDoc(collectionRef, payload);
+        //     console.log("The new ID is: " + docRef.id);
+        //     setCreateNewChatFlag(false)
+        //     console.log(CreateNewChatFlag)
 
-        if (querySnapshot._snapshot.docChanges.length == 0) {
-
-            const collectionRef = collection(db, "privateMsgs");
-            const payload = { "participants": [CurrentUser.email, userClicked] };
-            const docRef = await addDoc(collectionRef, payload);
-            console.log("The new ID is: " + docRef.id);
-
-        } else { console.log("created already") }
+        // } else {
+        //     console.log("created already")
+        //     setCreateNewChatFlag(false)
+        }
     }
 
     // real time for online users list
@@ -43,14 +53,14 @@ const DisplayUsers = () => {
     }, [setOnlines]);
 
 
-console.log(Onlines)
+    // console.log(Onlines)
     return (
         <div style={{ backgroundColor: "red", width: "30%", padding: "10px" }}>
             <h3> online users:</h3>
 
             {Onlines.map((online, i) =>
                 <div key={i}>
-                    {online.email != CurrentUser.email &&
+                    {online.email !== CurrentUser.email &&
                         <button onClick={() => handleClick(online.email)}>
                             <div style={{ padding: "5px" }}>
                                 {online.logged && online.User}
