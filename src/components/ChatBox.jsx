@@ -29,9 +29,9 @@ const ChatBox = () => {
     return unsub;
   }, []);
 
-
+console.log(msgs)
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "70%" }}>
       <div><StatusBar /></div>
       <div><ChatChooser /></div>
 
@@ -40,7 +40,7 @@ const ChatBox = () => {
       <div className='chatBox'>
         {msgs.map(msg =>
           <div className='msgContainer' key={msg.id}>
-            {msg.User}: {msg.Msg}
+            {msg.User}: {msg.Msg} 
           </div>
         )}
       </div>

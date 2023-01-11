@@ -18,26 +18,32 @@ const DisplayUsers = () => {
         const querySnapshot = await getDocs(q);
         let flag = false
         // loop to get the exact conversation with other user
+        console.log( 'aaa',querySnapshot.length)
         querySnapshot.forEach((doc) => {
-            console.log(  'test if contains:',          doc.data().participants.includes(userClicked)            );
+            console.log('test if contains:', doc.data().participants.includes(userClicked));
+            flag=(doc.data().participants.includes(userClicked)) 
+            console.log('id',doc.id)
             // (doc.data().participants.includes(userClicked)) && setCreateNewChatFlag(true)
-            setCreateNewChatFlag(doc.data().participants.includes(userClicked))
+            // setCreateNewChatFlag(doc.data().participants.includes(userClicked))
         })
-      
-      console.log(CreateNewChatFlag)
-    // creates conversation if doesn't exist
-        if (!CreateNewChatFlag) {
-console.log('yes')
-        //     const collectionRef = collection(db, "privateMsgs");
-        //     const payload = { "participants": [CurrentUser.email, userClicked] };
-        //     const docRef = await addDoc(collectionRef, payload);
-        //     console.log("The new ID is: " + docRef.id);
-        //     setCreateNewChatFlag(false)
-        //     console.log(CreateNewChatFlag)
 
-        // } else {
-        //     console.log("created already")
-        //     setCreateNewChatFlag(false)
+
+
+
+        console.log(CreateNewChatFlag)
+        // creates conversation if doesn't exist
+        if (!flag) {
+            console.log('yes')
+            const collectionRef = collection(db, "privateMsgs");
+            const payload = { "participants": [CurrentUser.email, userClicked] };
+            const docRef = await addDoc(collectionRef, payload);
+            console.log("The new ID is: " + docRef.id);
+            setCreateNewChatFlag(false)
+            console.log(CreateNewChatFlag)
+
+            } else {
+                console.log("created already")
+                setCreateNewChatFlag(false)
         }
     }
 
