@@ -58,8 +58,8 @@ console.log('else')
 
       {/* needs to be change to if conidition where this code will show when "main" is in ChatChooseChanger */}
       <div className='chatBox'>
-        {msgs.map(msg =>
-          <div className='msgContainer' key={msg.id}>
+        {msgs.map((msg,i) =>
+          <div className='msgContainer' key={i}>
             {msg.User}: {msg.Msg}
           </div>
         )}

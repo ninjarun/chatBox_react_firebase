@@ -9,6 +9,7 @@ const Input = () => {
 
 
   const handleSubmit = async () => {
+    // fills the chat box with "lobby" messages
     if (ChatToShow === "chatBox") {
       const collectionRef = collection(db, ChatToShow);
       const payload = { "User": CurrentUser.displayName, Msg, timestamp: serverTimestamp() };
@@ -19,7 +20,7 @@ const Input = () => {
 
       setMsg("")
     }
-    // come back to this almost done servertimestamp doesnt work with array union !
+// fills the chat box with private messages between *CurrentUser and name chosen from DisplayUsers
     else {
 
       const collectionRef = collection(db, 'privateMsgs');

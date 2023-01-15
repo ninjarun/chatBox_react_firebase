@@ -41,6 +41,7 @@ const DisplayUsers = () => {
     // console.log(Onlines)
     return (
         <div style={{ backgroundColor: "red", width: "30%", padding: "10px" }}>
+          <button onClick={()=>setChatToShow("chatBox")}>Lobby Chat</button>
             <h3> online users:</h3>
 
             {Onlines.map((online, i) =>

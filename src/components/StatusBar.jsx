@@ -5,6 +5,7 @@ import CurrentUserContext from '../contexts/CurrentUserContext'
 import { doc, setDoc } from 'firebase/firestore'
 const StatusBar = () => {
     const { CurrentUser, setCurrentUser, InnerToken } = useContext(CurrentUserContext)
+    console.log(InnerToken)
     const LogOut = async () => {
         await signOut(auth)
         setCurrentUser(null)
