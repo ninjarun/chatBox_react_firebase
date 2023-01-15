@@ -14,12 +14,12 @@ const ChatChooser = () => {
       const q = query(collection(db, "privateMsgs"), where("participants", "array-contains", CurrentUser.email));
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
+        // console.log(doc.id, " => ", doc.data());
         if (!Conversations.find(conversation => conversation.id === doc.id)) {
           setConversations([...Conversations, { ...doc.data(), "id": doc.id }])
         }
       })
-      console.log('conversations', Conversations)
+      // console.log('conversations', Conversations)
     }
     fetchData()
   }, [Conversations,ChatToShow])

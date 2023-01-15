@@ -23,7 +23,7 @@ const Input = () => {
     else {
 
       const collectionRef = collection(db, 'privateMsgs');
-      const payload = { "User": CurrentUser.displayName, Msg, timestamp: serverTimestamp() };
+      const payload = { "User":CurrentUser.displayName,"participants":[ CurrentUser.email, ChatToShow.email], Msg, timestamp: serverTimestamp() };
       const docRef = await addDoc(collectionRef, payload);
       console.log("The new ID is: " + docRef.id);
 

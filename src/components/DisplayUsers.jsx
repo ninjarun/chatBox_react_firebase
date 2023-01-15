@@ -10,32 +10,19 @@ const DisplayUsers = () => {
 
     // creates table for both users private chat - 
     const handleClick = async (userClicked) => {
-        // setChatChooserChanger(userClicked)
 
-        // query to get all messages that the current user is involved with
-        const q = query(collection(db, "privateMsgs"), where("participants", "array-contains", CurrentUser.email));
-        const querySnapshot = await getDocs(q);
+        // // query to get all messages that the current user is involved with
+        // const q = query(collection(db, "privateMsgs"), where("participants", "array-contains", CurrentUser.email));
+        // const querySnapshot = await getDocs(q);
 
-        // find the exact conversation with other user
-        const selectedDoc = querySnapshot.docs.find(doc =>
-            doc.data().participants.includes(userClicked.email)
+        // // find the exact conversation with other user
+        // const selectedDoc = querySnapshot.docs.find(doc =>
+        //     doc.data().participants.includes(userClicked.email)
             
-        );
-        // creates conversation if doesn't exist
-        if (!selectedDoc) {
-            console.log('yes')
-            const collectionRef = collection(db, "privateMsgs");
-            const payload = { "participants": [CurrentUser.email, userClicked.email],"otherUserDisplayName":userClicked.User,msgs:[] };
-            const docRef = await addDoc(collectionRef, payload);
-            console.log("The new ID is: " + docRef.id);
-            setChatToShow(`privateMsgs/${docRef.id}/msgs`)
-
-
-        } else {
-            console.log("created already")
-            setChatToShow(`privateMsgs/${selectedDoc.id}/msgs`)
+        // );
+            setChatToShow(userClicked)
         }
-    }
+   
 
 
 
