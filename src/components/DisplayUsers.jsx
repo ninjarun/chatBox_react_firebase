@@ -5,52 +5,36 @@ import CurrentUserContext from '../contexts/CurrentUserContext'
 
 const DisplayUsers = () => {
     const [Onlines, setOnlines] = useState([])
-    const { setChatChooserChanger, CurrentUser } = useContext(CurrentUserContext)
-    const [CreateNewChatFlag, setCreateNewChatFlag] = useState(null)
+    const {  CurrentUser, setChatToShow } = useContext(CurrentUserContext)
 
 
-    // creates table for both users private chat - NEEDS TO BE FIXED
+    // creates table for both users private chat - 
     const handleClick = async (userClicked) => {
-        console.log(CreateNewChatFlag)
-        setChatChooserChanger(userClicked)
+        // setChatChooserChanger(userClicked)
+
         // query to get all messages that the current user is involved with
         const q = query(collection(db, "privateMsgs"), where("participants", "array-contains", CurrentUser.email));
         const querySnapshot = await getDocs(q);
-        let flag = false
-        // loop to get the exact conversation with other user - ###################################################################################works well except the first run doesn't work!
-        querySnapshot.forEach((doc) => {
-            console.log(doc.data())
-            console.log(userClicked)
-            console.log('test if contains:', doc.data().participants.includes(userClicked));
-            if (doc.data().participants.includes(userClicked)) {
-                console.log('in if')
-                setCreateNewChatFlag(true)
 
-            }
-
-            //     flag=(doc.data().participants.includes(userClicked)) 
-            //     console.log(flag)
-            //     console.log('id',doc.id)
-            //     // (doc.data().participants.includes(userClicked)) && setCreateNewChatFlag(true)
-            //     // setCreateNewChatFlag(doc.data().participants.includes(userClicked))
-        })
-        console.log(CreateNewChatFlag)
+        // find the exact conversation with other user
+        const selectedDoc = querySnapshot.docs.find(doc =>
+            doc.data().participants.includes(userClicked.email)
+            
+        );
+        // creates conversation if doesn't exist
+        if (!selectedDoc) {
+            console.log('yes')
+            const collectionRef = collection(db, "privateMsgs");
+            const payload = { "participants": [CurrentUser.email, userClicked.email],"otherUserDisplayName":userClicked.User,msgs:[] };
+            const docRef = await addDoc(collectionRef, payload);
+            console.log("The new ID is: " + docRef.id);
+            setChatToShow(`privateMsgs/${docRef.id}/msgs`)
 
 
-
-
-        // // creates conversation if doesn't exist
-        // if (!flag) {
-        //     console.log('yes')
-        //     const collectionRef = collection(db, "privateMsgs");
-        //     const payload = { "participants": [CurrentUser.email, userClicked] };
-        //     const docRef = await addDoc(collectionRef, payload);
-        //     console.log("The new ID is: " + docRef.id);
-        //     console.log(CreateNewChatFlag)
-
-        // } else {
-        //     console.log("created already")
-        // }
+        } else {
+            console.log("created already")
+            setChatToShow(`privateMsgs/${selectedDoc.id}/msgs`)
+        }
     }
 
 
@@ -75,7 +59,7 @@ const DisplayUsers = () => {
             {Onlines.map((online, i) =>
                 <div key={i}>
                     {online.email !== CurrentUser.email &&
-                        <button onClick={() => handleClick(online.email)}>
+                        <button onClick={() => handleClick(online)}>
                             <div style={{ padding: "5px" }}>
                                 {online.logged && online.User}
                             </div>

@@ -14,22 +14,22 @@ const ChatBox = () => {
   const [msgs, setmsgs] = useState([])
   
   // allows user to choose what to display in the display box
-  const { ChatChooserChanger } = useContext(CurrentUserContext)
+  const { ChatToShow,setChatToShow } = useContext(CurrentUserContext)
 
 
   // firebase realTime database - used to work with setmsgs to display all lobby messages
   useEffect(() => {
-    const collectionRef = collection(db, "chatBox");
+    // console.log('useefectfrs')
+    const collectionRef = collection(db, ChatToShow);
     const q = query(collectionRef, orderBy("timestamp", "desc"));
-
     const unsub = onSnapshot(q, (snapshot) =>
       setmsgs(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
     );
 
     return unsub;
-  }, []);
+  }, [ChatToShow,setChatToShow]);
 
-console.log(msgs)
+// console.log(msgs)
   return (
     <div style={{ width: "70%" }}>
       <div><StatusBar /></div>

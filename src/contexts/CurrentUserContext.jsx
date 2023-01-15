@@ -5,17 +5,17 @@ const CurrentUserContext = createContext({
     CurrentUser: null,
     setInnerToken: () => null,
     InnerToken: null,
-    setChatChooserChanger: () => null,
-    ChatChooserChanger: null,
+    setChatToShow: () => null,
+    ChatToShow: null,
     
 });
 
 export function CurrentUserProvider({ children }) {
     const [CurrentUser, setCurrentUser] = useState("")
     const [InnerToken, setInnerToken] = useState("")
-const [ChatChooserChanger, setChatChooserChanger] = useState("main")
+const [ChatToShow, setChatToShow] = useState("chatBox")
     return (
-        <CurrentUserContext.Provider value={{ CurrentUser,setCurrentUser,InnerToken,setInnerToken,setChatChooserChanger,ChatChooserChanger }}>{children}</CurrentUserContext.Provider>
+        <CurrentUserContext.Provider value={{ CurrentUser,setCurrentUser,InnerToken,setInnerToken,setChatToShow,ChatToShow }}>{children}</CurrentUserContext.Provider>
     )
 }
 
